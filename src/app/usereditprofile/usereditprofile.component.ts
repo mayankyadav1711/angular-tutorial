@@ -2,7 +2,7 @@ import { Component, OnInit, QueryList, TemplateRef, ViewChildren } from '@angula
 import { AbstractControl, FormBuilder, FormControl, FormGroup, NgForm, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { read } from '@popperjs/core';
-import { ScrollbarWidthService } from '@progress/kendo-angular-common';
+// import { ScrollbarWidthService } from '@progress/kendo-angular-common';
 import { ActionName, ListBoxComponent, ListBoxToolbarConfig } from '@progress/kendo-angular-listbox';
 import { NgToastService } from 'ng-angular-popup';
 import { ToastrService } from 'ngx-toastr';
