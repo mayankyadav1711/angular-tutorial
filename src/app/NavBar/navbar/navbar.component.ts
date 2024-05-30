@@ -26,6 +26,7 @@ export class NavbarComponent implements OnInit {
       }
     });
     var tokenDetail = this.service.decodedToken();
+    console.log(tokenDetail)
     if(tokenDetail.userType != 'user')
     {
       this.isLogin = false;

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { MissionApplication } from '../model/missionApplication.model';
 import { MissionTheme } from '../model/missionTheme.model';
 import { MissionSkill } from '../model/missionSkill.model';
+import { UserDetail } from '../model/user.model'; 
 @Injectable({
   providedIn: 'root',
 })
@@ -17,17 +18,28 @@ export class AdminsideServiceService {
     public router: Router
   ) {}
   // apiUrl:string='http://localhost:63943/api';
-  apiUrl: string = 'http://localhost:56577/api';
+  apiUrl: string = 'https://localhost:7178/api';
   imageUrl: string = 'http://localhost:56577';
 
-  //User
-  UserList(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/AdminUser/UserDetailList`);
+  // User Details
+  getUserDetails(): Observable<UserDetail[]> {
+    return this.http.get<UserDetail[]>(`${this.apiUrl}/v1/UserDetails`);
   }
-  DeleteUser(userId: any) {
-    return this.http.delete(
-      `${this.apiUrl}/AdminUser/DeleteUserAndUserDetail/${userId}`
-    );
+
+  getUserDetailById(id: number): Observable<UserDetail> {
+    return this.http.get<UserDetail>(`${this.apiUrl}/v1/UserDetails/${id}`);
+  }
+
+  createUserDetail(userDetail: UserDetail): Observable<UserDetail> {
+    return this.http.post<UserDetail>(`${this.apiUrl}/v1/UserDetails`, userDetail);
+  }
+
+  updateUserDetail(userDetail: UserDetail): Observable<UserDetail> {
+    return this.http.put<UserDetail>(`${this.apiUrl}/v1/UserDetails/${userDetail.id}`, userDetail);
+  }
+
+  deleteUserDetail(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/v1/UserDetails/${id}`);
   }
 
   //CMS

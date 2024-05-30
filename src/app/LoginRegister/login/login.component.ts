@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
+import { AdminloginService } from 'src/app/service/adminlogin.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
     private http: HttpClient,
     public router: Router,
     public toastr: ToastrService,
-    public toast: NgToastService
+    public toast: NgToastService,
+    private service: AdminloginService
   ) { }
 
   loginForm: FormGroup;
@@ -41,34 +43,48 @@ export class LoginComponent implements OnInit {
     return this.loginForm.get('password') as FormControl;
   }
 
-  OnSubmit() {
+  OnSubmit(){
     this.formValid = true;
-    if (this.loginForm.valid) {
-      this.login();
+    if(this.loginForm.valid)
+    {
+      this.service.loginUser([
+        this.loginForm.value.emailAddress,
+        this.loginForm.value.password
+      ]).subscribe((res:any)=>{
+
+        if(res)
+        {
+          console.log(res);
+          if(res.message == "Login Successfully")
+          {
+            this.service.setToken(res.token);
+            let tokenpayload = this.service.decodedToken();
+            this.service.setCurrentUser(tokenpayload);
+
+            this.toast.success({detail:"SUCCESS",summary:res.message,duration:3000});
+            if(tokenpayload.userType == 'admin')
+            {
+              this.router.navigate(['admin/dashboard']);
+            }
+            else
+            {
+              this.router.navigate(['/home']);
+            }
+
+          }
+          else
+          {
+            // this.toastr.error(res.data.message);
+            this.toast.error({detail:"ERROR",summary:res.message,duration:3000});
+          }
+        }
+        else
+        {
+          // this.toastr.error(res.message);
+          this.toast.error({detail:"ERROR",summary:res.message,duration:3000});
+        }
+      });
       this.formValid = false;
     }
-  }
-
-  login() {
-    const loginData = {
-      emailAddress: this.loginForm.get('emailAddress')?.value,
-      password: this.loginForm.get('password')?.value
-    };
-
-    this.http.post<any>('https://localhost:7178/api/v1/Auth/login', loginData)
-      .subscribe(
-        (response) => {
-          // Handle successful login
-          console.log(response);
-          // Save the token, user data, etc.
-          // Redirect to the desired page
-          this.router.navigate(['/home']);
-        },
-        (error) => {
-          // Handle login error
-          console.error(error);
-          // Display an error message
-        }
-      );
-  }
+}
 }

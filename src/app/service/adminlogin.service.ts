@@ -2,88 +2,91 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { user } from '../model/user.model';
-import {JwtHelperService} from  '@auth0/angular-jwt';
+import { JwtHelperService } from '@auth0/angular-jwt';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AdminloginService {
-  apiUrl:string='http://localhost:56577/api/Login';
-  imageUrl:string='http://localhost:56577';
+  baseURL: string = 'https://localhost:7178/api/v1/Auth/login';
+  apiUrl : string = 'https://localhost:7178/api/v1/Auth';
+  imageUrl: string = 'http://localhost:56577';
+  currentUser: BehaviorSubject<any> = new BehaviorSubject(null);
+  currentUserName: BehaviorSubject<any> = new BehaviorSubject(null);
+  currentUserData: any;
+  jwtHelperService = new JwtHelperService();
 
-  currentUser : BehaviorSubject<any> = new BehaviorSubject(null);
-  currentUserName : BehaviorSubject<any> = new BehaviorSubject(null);
-  currentUserData:any;
-  public userPayLoad:any;
-  jwthelperService = new JwtHelperService();
+  constructor(public http: HttpClient) {}
 
-  constructor(public http:HttpClient) {
-    this.userPayLoad = this.decodedToken();
-  }
-
-  registerUser(user:user){
-      return this.http.post(`${this.apiUrl}/Register`,user,{responseType:'json'});
+  registerUser(user: user) {
+    return this.http.post(`${this.apiUrl}/register`, user, { responseType: 'json' });
   }
 
   GetUserById(id: number): Observable<user[]> {
-    return this.http.get<user[]>(
-      `${this.apiUrl}/GetUserById/${id}`
-    );
+    return this.http.get<user[]>(`${this.apiUrl}/GetUserById/${id}`);
   }
+
   UpdateUser(data: user) {
     return this.http.post(`${this.apiUrl}/UpdateUser`, data);
   }
 
-  loginUser(loginInfo:Array<string>){
-    return this.http.post(`${this.apiUrl}/LoginUser`,{
-      EmailAddress : loginInfo[0],
-      Password : loginInfo[1]
-    },{responseType:'json'});
+  loginUser(loginInfo: Array<string>) {
+    return this.http.post(`${this.apiUrl}/login`, { EmailAddress: loginInfo[0], Password: loginInfo[1] }, { responseType: 'json' });
   }
 
-  ForgotPasswordEmailCheck(data:any){
-    return this.http.post(`${this.apiUrl}/ForgotPassword`,data);
+  ForgotPasswordEmailCheck(data: any) {
+    return this.http.post(`${this.apiUrl}/ForgotPassword`, data);
   }
 
-  ResetPassword(data:any){
-      return this.http.post(`${this.apiUrl}/ResetPassword`,data,{responseType:'text'});
+  ResetPassword(data: any) {
+    return this.http.post(`${this.apiUrl}/ResetPassword`, data, { responseType: 'text' });
   }
 
-  ChangePassword(data:any){
-    return this.http.post(`${this.apiUrl}/ChangePassword`,data);
-}
+  ChangePassword(data: any) {
+    return this.http.post(`${this.apiUrl}/ChangePassword`, data);
+  }
 
-  getToken(){
+  getToken() {
     return localStorage.getItem("access_Token");
   }
-  setToken(token:string){
-    localStorage.setItem("access_Token",token);
+
+  setToken(token: string) {
+    localStorage.setItem("access_Token", token);
   }
 
-  isLoggedIn():boolean{
-      return localStorage.getItem("access_Token") ? true : false;
+  isLoggedIn(): boolean {
+    return localStorage.getItem("access_Token") ? true : false;
   }
 
-  LoggedOut(){
+  LoggedOut() {
     localStorage.removeItem("access_Token");
   }
 
-  public getCurrentUser(){
+  public getCurrentUser() {
     return this.currentUser.asObservable();
   }
-  public setCurrentUser(userDetail:any){
+
+  public setCurrentUser(userDetail: any) {
     return this.currentUser.next(userDetail);
   }
-  decodedToken(){
+
+  decodedToken(): any {
     const token = this.getToken();
-    return this.jwthelperService.decodeToken(token);
-  }
-  getUserFullName(){
-    if(this.userPayLoad)
-      return this.userPayLoad.fullName;
-  }
-  getUserDetail(){
-    if(this.userPayLoad)
-      return this.userPayLoad;
+    if (token) {
+      return this.jwtHelperService.decodeToken(token);
+    }
+    return null;
   }
 
+  getUserFullName() {
+    const decodedToken = this.decodedToken();
+    if (decodedToken) {
+      return decodedToken.fullName;
+    }
+    return null;
+  }
+
+  getUserDetail() {
+    return this.decodedToken();
+  }
 }
