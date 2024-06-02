@@ -39,7 +39,7 @@
                     <td>{{item.department}}</td>
                     <td style="color:#14c506;">{{item.status ? 'active':'inactive'}}</td>
                     <td style="text-align: right;">
-                      <button class="btnedit" routerLink="../editUser/{{item.id}}">
+                      <button class="btnedit" routerLink="../editUser/{{item.userId}}">
                         <i class="fa fa-edit "></i>
                       </button>
                       <button class="btnedit" (click)="userDetailId = item.id; deleteModal.show()">

@@ -6,12 +6,12 @@ import ValidateForm from 'src/app/Helper/ValidateForm';
 import { AdminsideServiceService } from 'src/app/service/adminside-service.service';
 
 @Component({
-  selector: 'app-add-mission-skill',
-  templateUrl: './add-mission-skill.component.html',
-  styleUrls: ['./add-mission-skill.component.css']
+  selector: 'app-update-mission-skill',
+  templateUrl: './update-mission-skill.component.html',
+  styleUrls: ['./update-mission-skill.component.css']
 })
-export class AddMissionSkillComponent implements OnInit {
-  addMissionSkillForm: FormGroup;
+export class UpdateMissionSkillComponent implements OnInit {
+  updateMissionSkillForm: FormGroup;
   skillId: any;
   editData: any;
 
@@ -33,7 +33,7 @@ export class AddMissionSkillComponent implements OnInit {
   }
 
   MissionSkillFormValidate() {
-    this.addMissionSkillForm = this.fb.group({
+    this.updateMissionSkillForm = this.fb.group({
       id: [0],
       skillName: ['', Validators.compose([Validators.required])],
       status: ['', Validators.compose([Validators.required])]
@@ -43,8 +43,9 @@ export class AddMissionSkillComponent implements OnInit {
   FetchDataById(id: any) {
     this.service.MissionSkillById(id).subscribe((data: any) => {
       if (data) {
-        this.editData = data.data;
-        this.addMissionSkillForm.patchValue(this.editData);
+        console.log(data)
+        this.editData = data;
+        this.updateMissionSkillForm.patchValue(this.editData);
       } else {
         this.toast.error({ detail: 'ERROR', summary: data.message, duration: 3000 });
       }
@@ -52,35 +53,18 @@ export class AddMissionSkillComponent implements OnInit {
   }
 
   OnSubmit() {
-    if (this.addMissionSkillForm.valid) {
-      let value = this.addMissionSkillForm.value;
-      if (value.id == 0) {
-        this.InsertData(value);
-      } else {
-        this.UpdateData(value);
-      }
+    if (this.updateMissionSkillForm.valid) {
+      let value = this.updateMissionSkillForm.value;
+      this.UpdateData(value);
     } else {
-      ValidateForm.ValidateAllFormFields(this.addMissionSkillForm);
+      ValidateForm.ValidateAllFormFields(this.updateMissionSkillForm);
     }
-  }
-
-  InsertData(value: any) {
-    this.service.AddMissionSkill(value).subscribe((data: any) => {
-      if (data) {
-        this.toast.success({ detail: 'SUCCESS', summary: "Mission Skill Added Successfully", duration: 3000 });
-        setTimeout(() => {
-          this.router.navigate(['admin/missionSkill']);
-        }, 1000);
-      } else {
-        this.toast.error({ detail: 'ERROR', summary: data.message, duration: 3000 });
-      }
-    }, err => this.toast.error({ detail: 'ERROR', summary: "Mission Skill Added Successfully", duration: 3000 }))
   }
 
   UpdateData(value: any) {
     this.service.UpdateMissionSkill(value).subscribe((data: any) => {
-      if (data.result == 1) {
-        this.toast.success({ detail: 'SUCCESS', summary: data.data, duration: 3000 });
+      if (data) {
+        this.toast.success({ detail: 'SUCCESS', summary: "Updated Successfully", duration: 3000 });
         setTimeout(() => {
           this.router.navigate(['admin/missionSkill']);
         }, 1000);

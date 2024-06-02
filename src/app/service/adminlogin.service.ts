@@ -8,7 +8,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   providedIn: 'root'
 })
 export class AdminloginService {
-  baseURL: string = 'https://localhost:7178/api/v1/Auth/login';
+  baseUrl: string = 'https://localhost:7178/api/v1';
   apiUrl : string = 'https://localhost:7178/api/v1/Auth';
   imageUrl: string = 'http://localhost:56577';
   currentUser: BehaviorSubject<any> = new BehaviorSubject(null);
@@ -18,16 +18,18 @@ export class AdminloginService {
 
   constructor(public http: HttpClient) {}
 
-  registerUser(user: user) {
-    return this.http.post(`${this.apiUrl}/register`, user, { responseType: 'json' });
+  registerUser(registerData: any): Observable<any> {
+    const url = `${this.baseUrl}/UserDetails/registerUser`;
+    return this.http.post(url, registerData);
   }
 
   GetUserById(id: number): Observable<user[]> {
-    return this.http.get<user[]>(`${this.apiUrl}/GetUserById/${id}`);
+    console.log("Id received in getuser function is : ", id);
+    return this.http.get<user[]>(`${this.baseUrl}/UserDetails/getUserById/${id}`);
   }
 
   UpdateUser(data: user) {
-    return this.http.post(`${this.apiUrl}/UpdateUser`, data);
+    return this.http.put(`${this.baseUrl}/UserDetails/updateUser`, data);
   }
 
   loginUser(loginInfo: Array<string>) {

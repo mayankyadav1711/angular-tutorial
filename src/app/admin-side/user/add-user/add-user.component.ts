@@ -24,7 +24,6 @@ export class AddUserComponent implements OnInit {
     this.registerForm = this.fb.group({
       firstName:[null,Validators.compose([Validators.required])],
       lastName:[null,Validators.compose([Validators.required])],
-      phoneNumber:[null,Validators.compose([Validators.required,Validators.minLength(10),Validators.maxLength(10)])],
       emailAddress:[null,Validators.compose([Validators.required,Validators.email])],
       password:[null,Validators.compose([Validators.required,Validators.minLength(5),Validators.maxLength(10)])],
       confirmPassword:[null,Validators.compose([Validators.required])]
@@ -41,10 +40,7 @@ export class AddUserComponent implements OnInit {
   {
     return this.registerForm.get('lastName') as FormControl;
   }
-  get phoneNumber()
-  {
-    return this.registerForm.get('phoneNumber') as FormControl;
-  }
+ 
   get emailAddress()
   {
     return this.registerForm.get('emailAddress') as FormControl;
@@ -57,29 +53,37 @@ export class AddUserComponent implements OnInit {
   {
     return this.registerForm.get('confirmPassword') as FormControl;
   }
-  OnSubmit(){
-
-      this.formValid = true;
-      if(this.registerForm.valid)
-      {
-        let register = this.registerForm.value;
-        register.userType = 'user';
-        this.service.registerUser(register).subscribe((data:any)=>{
-          if(data.result==1)
-          {
-            //this.toastr.success(data.data);
-            this.toast.success({detail:"SUCCESS",summary:data.data,duration:3000});
-            setTimeout(() => {
-              this.router.navigate(['userPage']);
-            }, 1000);
-          }
-          else
-          {
-            //this.toastr.error(data.message);
-            this.toast.error({detail:"ERROR",summary:data.message,duration:3000});
-          }
-        })
-          this.formValid = false;
-      }
+  OnSubmit() {
+    console.log("form submitted");
+    this.formValid = true;
+    console.log("formValid:", this.formValid); // Add this line
+    console.log("form valid:", this.registerForm.valid); // Add this line
+    if (this.registerForm.valid) {
+      console.log("valid entry"); // This line is already present
+      const registerData = {
+        firstName: this.registerForm.value.firstName,
+        lastName: this.registerForm.value.lastName,
+        emailAddress: this.registerForm.value.emailAddress,
+        password: this.registerForm.value.password,
+        confirmPassword: this.registerForm.value.confirmPassword,
+        userType: 'user',
+        phoneNumber: '1234567890'
+      };
+  
+      this.service.registerUser(registerData).subscribe(
+        (response: any) => {
+          // Handle successful registration
+          this.toast.success({ detail: "SUCCESS", summary: response.message, duration: 3000 });
+          setTimeout(() => {
+            this.router.navigate(['admin/userPage']);
+          }, 1000);
+        },
+        (error: any) => {
+          // Handle error
+          this.toast.error({ detail: "ERROR", summary: error.message || error.error, duration: 3000 });
+        }
+      );
+      this.formValid = false;
+    }
   }
 }

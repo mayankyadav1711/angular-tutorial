@@ -12,6 +12,7 @@ import { AddMissionComponent } from './mission/add-mission/add-mission.component
 import { UserTypeGuard } from '../service/user-type.guard';
 import { AddMissionThemeComponent } from './missiontheme/add-mission-theme/add-mission-theme.component';
 import { AddMissionSkillComponent } from './missionskill/add-mission-skill/add-mission-skill.component';
+import { UpdateMissionSkillComponent } from './missionskill/update-mission-skill/update-mission-skill.component';
 import { AddUserComponent } from './user/add-user/add-user.component';
 import { UpdateUserComponent } from './user/update-user/update-user.component';
 
@@ -31,7 +32,7 @@ const routes: Routes = [
   {path:'updateMissionTheme/:Id',component:AddMissionThemeComponent,canActivate:[UserTypeGuard],data: {expectedUserType: 'admin'}},
   {path:'missionSkill',component:MissionskillComponent,canActivate:[UserTypeGuard],data: {expectedUserType: 'admin'}},
   {path:'addMissionSkill',component:AddMissionSkillComponent,canActivate:[UserTypeGuard],data: {expectedUserType: 'admin'}},
-  {path:'updateMissionSkill/:Id',component:AddMissionSkillComponent,canActivate:[UserTypeGuard],data: {expectedUserType: 'admin'}},
+  {path:'updateMissionSkill/:Id',component:UpdateMissionSkillComponent,canActivate:[UserTypeGuard],data: {expectedUserType: 'admin'}},
   {path:'missionApplication',component:MissionApplicationComponent,canActivate:[UserTypeGuard],data: {expectedUserType: 'admin'}},
   {path:'**',component:LoginComponent,canActivate:[UserTypeGuard],data: {expectedUserType: 'admin'}}
 ];

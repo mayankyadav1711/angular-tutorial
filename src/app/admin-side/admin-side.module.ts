@@ -26,8 +26,10 @@ import { TokenInterceptor } from '../Interceptors/token.interceptor';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { AddMissionThemeComponent } from './missiontheme/add-mission-theme/add-mission-theme.component';
 import { AddMissionSkillComponent } from './missionskill/add-mission-skill/add-mission-skill.component';
+import { UpdateMissionSkillComponent } from './missionskill/update-mission-skill/update-mission-skill.component';
 import { AddUserComponent } from './user/add-user/add-user.component';
 import { UpdateUserComponent } from './user/update-user/update-user.component';
+
 
 
 @NgModule({
@@ -46,7 +48,8 @@ import { UpdateUserComponent } from './user/update-user/update-user.component';
     AddMissionThemeComponent,
     AddMissionSkillComponent,
     AddUserComponent,
-    UpdateUserComponent
+    UpdateUserComponent,
+    UpdateMissionSkillComponent
 
   ],
   imports: [

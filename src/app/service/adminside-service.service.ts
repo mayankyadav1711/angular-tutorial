@@ -142,26 +142,26 @@ export class AdminsideServiceService {
   //Mission Skill
   MissionSkillList(): Observable<MissionSkill[]> {
     return this.http.get<MissionSkill[]>(
-      `${this.apiUrl}/MissionSkill/GetMissionSkillList`
+      `${this.apiUrl}/MissionSkill`
     );
   }
   MissionSkillById(id: any): Observable<MissionSkill[]> {
     return this.http.get<MissionSkill[]>(
-      `${this.apiUrl}/MissionSkill/GetMissionSkillById/${id}`
+      `${this.apiUrl}/MissionSkill/${id}`
     );
   }
   AddMissionSkill(data: MissionSkill) {
-    return this.http.post(`${this.apiUrl}/MissionSkill/AddMissionSkill`, data);
+    return this.http.post(`${this.apiUrl}/MissionSkill`, data);
   }
   UpdateMissionSkill(data: MissionSkill) {
-    return this.http.post(
-      `${this.apiUrl}/MissionSkill/UpdateMissionSkill`,
+    return this.http.put(
+      `${this.apiUrl}/MissionSkill/${data.id}`,
       data
     );
   }
   DeleteMissionSkill(data: any) {
     return this.http.delete(
-      `${this.apiUrl}/MissionSkill/DeleteMissionSkill/${data}`
+      `${this.apiUrl}/MissionSkill/${data}`
     );
   }
 }
