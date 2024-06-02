@@ -29,6 +29,7 @@ import { AddMissionSkillComponent } from './missionskill/add-mission-skill/add-m
 import { UpdateMissionSkillComponent } from './missionskill/update-mission-skill/update-mission-skill.component';
 import { AddUserComponent } from './user/add-user/add-user.component';
 import { UpdateUserComponent } from './user/update-user/update-user.component';
+import { UpdateMissionThemeComponent } from './missiontheme/update-mission-theme/update-mission-theme.component';
 
 
 
@@ -49,7 +50,8 @@ import { UpdateUserComponent } from './user/update-user/update-user.component';
     AddMissionSkillComponent,
     AddUserComponent,
     UpdateUserComponent,
-    UpdateMissionSkillComponent
+    UpdateMissionSkillComponent,
+    UpdateMissionThemeComponent
 
   ],
   imports: [

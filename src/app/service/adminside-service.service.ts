@@ -116,26 +116,26 @@ export class AdminsideServiceService {
   //Mission Theme
   MissionThemeList(): Observable<MissionTheme[]> {
     return this.http.get<MissionTheme[]>(
-      `${this.apiUrl}/MissionTheme/GetMissionThemeList`
+      `${this.apiUrl}/MissionTheme`
     );
   }
   MissionThemeById(id: any): Observable<MissionTheme[]> {
     return this.http.get<MissionTheme[]>(
-      `${this.apiUrl}/MissionTheme/GetMissionThemeById/${id}`
+      `${this.apiUrl}/MissionTheme/${id}`
     );
   }
   AddMissionTheme(data: MissionTheme) {
-    return this.http.post(`${this.apiUrl}/MissionTheme/AddMissionTheme`, data);
+    return this.http.post(`${this.apiUrl}/MissionTheme/`, data);
   }
   UpdateMissionTheme(data: MissionTheme) {
-    return this.http.post(
-      `${this.apiUrl}/MissionTheme/UpdateMissionTheme`,
+    return this.http.put(
+      `${this.apiUrl}/MissionTheme/${data.id}`,
       data
     );
   }
   DeleteMissionTheme(data: any) {
     return this.http.delete(
-      `${this.apiUrl}/MissionTheme/DeleteMissionTheme/${data}`
+      `${this.apiUrl}/MissionTheme/${data}`
     );
   }
 

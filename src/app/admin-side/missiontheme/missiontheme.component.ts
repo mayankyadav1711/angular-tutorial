@@ -30,8 +30,8 @@ export class MissionthemeComponent implements OnInit {
   getMissionThemeList() {
     this.service.MissionThemeList().subscribe(
       (data: any) => {
-        if (data.result == 1) {
-          this.missionThemeList = data.data;
+        if (data) {
+          this.missionThemeList = data;
         } else {
           this.toast.error({ summary: data.message, duration: 3000 });
         }
@@ -40,15 +40,26 @@ export class MissionthemeComponent implements OnInit {
     );
   }
  
-  CloseRemoveMissionThemeModal(){
+  routeToEditMissionTheme(themeId: number): void {
+    this.router.navigate(['admin/updateMissionTheme', themeId]);
+  }
+
+  openDeleteModal(themeId: number): void {
+    this.themeId = themeId;
+    this.deleteThemeModal.show();
+  }
+  
+  closeDeleteModal(): void {
+    this.themeId = null;
     this.deleteThemeModal.hide();
   }
   DeleteMissionTheme() {
     this.service.DeleteMissionTheme(this.themeId).subscribe(
       (data: any) => {
-        if (data.result == 1) {
-          this.toast.success({detail: 'SUCCESS',summary: data.data,duration: 3000});
-          this.CloseRemoveMissionThemeModal();
+        if (data) {
+          this.toast.success({detail: 'SUCCESS',summary: "Deleted Successfully",duration: 3000});
+          this.closeDeleteModal();
+          this.getMissionThemeList();
           setTimeout(() => {
             this.router.navigate(['admin/missionTheme']);
           }, 1000);

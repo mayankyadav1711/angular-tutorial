@@ -5,27 +5,31 @@
     <div class="info">
       <div class="card">
         <div class="card-header">
-          Add Mission Theme
+          Update Mission Theme
         </div>
         <div class="card-body">
-          <form [formGroup]="addMissionThemeForm">
+          <form [formGroup]="updateMissionThemeForm">
             <div class="row" style="padding: 3px 10px 3px 10px;">
               <input type="hidden" formControlName="id">
               <div class="form-group col-md-6">
                 <label class="col-form-label">Theme Name</label>
-                <input type="text" formControlName="themeName" class="form-control" [class.error]="addMissionThemeForm.controls['themeName'].dirty && addMissionThemeForm.hasError('required','themeName')">
-                <span class="text-danger" *ngIf="addMissionThemeForm.controls['themeName'].dirty && addMissionThemeForm.hasError('required','themeName')">
+                <input type="text" formControlName="themeName" class="form-control" 
+                  [class.error]="updateMissionThemeForm.controls['themeName'].dirty && updateMissionThemeForm.controls['themeName'].hasError('required')">
+                <span class="text-danger" 
+                  *ngIf="updateMissionThemeForm.controls['themeName'].dirty && updateMissionThemeForm.controls['themeName'].hasError('required')">
                   Theme Name is required
                 </span>
               </div>
               <div class="form-group col-md-6">
                 <label class="col-form-label">Status</label>
-                <select formControlName="status" class="form-control" [class.error]="addMissionThemeForm.controls['status'].dirty && addMissionThemeForm.hasError('required','status')">
+                <select formControlName="status" class="form-control" 
+                  [class.error]="updateMissionThemeForm.controls['status'].dirty && updateMissionThemeForm.controls['status'].hasError('required')">
                   <option value="" disabled>Select Status</option>
                   <option value="active">Active</option>
                   <option value="inactive">Inactive</option>
                 </select>
-                <span class="text-danger" *ngIf="addMissionThemeForm.controls['status'].dirty && addMissionThemeForm.hasError('required','status')">
+                <span class="text-danger" 
+                  *ngIf="updateMissionThemeForm.controls['status'].dirty && updateMissionThemeForm.controls['status'].hasError('required')">
                   Status is required
                 </span>
               </div>
