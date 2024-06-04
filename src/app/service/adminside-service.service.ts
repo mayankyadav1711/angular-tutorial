@@ -83,19 +83,19 @@ export class AdminsideServiceService {
     );
   }
   CountryList(): Observable<Country[]> {
-    return this.http.get<Country[]>(`${this.apiUrl}/Common/CountryList`);
+    return this.http.get<Country[]>(`${this.apiUrl}/Countries`);
   }
   CityList(countryId: any): Observable<City[]> {
-    return this.http.get<City[]>(`${this.apiUrl}/Common/CityList/${countryId}`);
+    return this.http.get<City[]>(`${this.apiUrl}/Cities/GetCitiesByCountryId${countryId}`);
   }
   AddMission(data: Mission) {
-    return this.http.post(`${this.apiUrl}/Mission/AddMission`, data);
+    return this.http.post(`${this.apiUrl}/Mission`, data);
   }
   UpdateMission(data: Mission) {
-    return this.http.post(`${this.apiUrl}/Mission/UpdateMission`, data);
+    return this.http.post(`${this.apiUrl}/Mission/${data.id}`, data);
   }
   DeleteMission(data: any) {
-    return this.http.delete(`${this.apiUrl}/Mission/DeleteMission/${data}`);
+    return this.http.delete(`${this.apiUrl}/Mission/${data}`);
   }
 
   //Mission Application
