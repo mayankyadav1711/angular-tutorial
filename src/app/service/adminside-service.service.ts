@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
-import { City, CMS, Country, Mission } from '../model/cms.model';
+import { City, CMS, Country, Mission,MissionDto } from '../model/cms.model';
 import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -8,19 +8,24 @@ import { MissionApplication } from '../model/missionApplication.model';
 import { MissionTheme } from '../model/missionTheme.model';
 import { MissionSkill } from '../model/missionSkill.model';
 import { UserDetail } from '../model/user.model'; 
+
 @Injectable({
   providedIn: 'root',
 })
+
 export class AdminsideServiceService {
   constructor(
     public http: HttpClient,
     public toastr: ToastrService,
-    public router: Router
+    public router: Router,
+   
   ) {}
   // apiUrl:string='http://localhost:63943/api';
   apiUrl: string = 'https://localhost:7178/api';
   imageUrl: string = 'http://localhost:56577';
 
+
+  
   // User Details
   getUserDetails(): Observable<UserDetail[]> {
     return this.http.get<UserDetail[]>(`${this.apiUrl}/v1/UserDetails`);
@@ -88,9 +93,10 @@ export class AdminsideServiceService {
   CityList(countryId: any): Observable<City[]> {
     return this.http.get<City[]>(`${this.apiUrl}/Cities/GetCitiesByCountryId/${countryId}`);
   }
-  AddMission(data: Mission) {
-    return this.http.post(`${this.apiUrl}/Missions`, data);
+  AddMission(missionDto: MissionDto) {
+    return this.http.post<Mission>(`${this.apiUrl}/Missions`, missionDto);
   }
+  
   UpdateMission(data: Mission) {
     return this.http.post(`${this.apiUrl}/Missions/${data.id}`, data);
   }

@@ -69,19 +69,19 @@ export class MissionComponent implements OnInit {
 
   DeleteMissionData(){
     this.service.DeleteMission(this.missionId).subscribe((data:any)=>{
-        if(data.result == 1)
+        if(data)
         {
           //this.toastr.success(data.data);
-          this.toast.success({detail:"SUCCESS",summary:data.data,duration:3000});
+          this.toast.success({detail:"SUCCESS",summary:"Deleted Successfully",duration:3000});
           setTimeout(() => {
             this.deleteModal.hide();
-          window.location.reload();
+            this.FetchData();
           }, 1000);
         }
         else
         {
           //this.toastr.error(data.message);
-          this.toast.error({detail:"ERORR",summary:data.message,duration:3000});
+          this.toast.error({detail:"ERORR",summary:"Something went wrong",duration:3000});
         }
       },err=>this.toast.error({detail:"ERROR",summary:err.message,duration:3000}));
   }

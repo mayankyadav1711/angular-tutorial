@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AdminsideServiceService } from 'src/app/service/adminside-service.service';
 import { NgToastService } from 'ng-angular-popup';
+import { ImgbbService } from 'src/environments/imgbb.config';
 
 @Component({
   selector: 'app-add-mission',
@@ -20,8 +21,8 @@ export class AddMissionComponent implements OnInit {
   cityList: any[] = [];
   missionThemeList: any[] = [];
   missionSkillList: any[] = [];
-  formData = new FormData();
-  imageListArray: any[] = [];
+  selectedImage: File | null = null;
+  uploadedImageUrl: string = '';
 
   constructor(
     public fb: FormBuilder,
@@ -29,7 +30,8 @@ export class AddMissionComponent implements OnInit {
     public toastr: ToastrService,
     public router: Router,
     public datePipe: DatePipe,
-    private toast: NgToastService
+    private toast: NgToastService,
+    private imgbbService: ImgbbService
   ) { }
 
   ngOnInit(): void {
@@ -44,7 +46,7 @@ export class AddMissionComponent implements OnInit {
     this.addMissionForm = this.fb.group({
       countryId: [null, Validators.compose([Validators.required])],
       cityId: [null, Validators.compose([Validators.required])],
-      missionTitle: [null, Validators.compose([Validators.required])],
+      missionTitle: [null, Validators.compose([Validators.required])], // Add this line
       missionDescription: [null, Validators.compose([Validators.required])],
       startDate: [null, Validators.compose([Validators.required])],
       endDate: [null, Validators.compose([Validators.required])],
@@ -54,6 +56,7 @@ export class AddMissionComponent implements OnInit {
       totalSheets: [null, Validators.compose([Validators.required])]
     });
   }
+  
 
   get countryId() { return this.addMissionForm.get('countryId') as FormControl; }
   get cityId() { return this.addMissionForm.get('cityId') as FormControl; }
@@ -98,7 +101,6 @@ export class AddMissionComponent implements OnInit {
           value: item.id,
           text: item.cityName
         }));
-      
       } else {
         this.toast.error({ detail: "ERROR", summary: data.message, duration: 3000 });
       }
@@ -112,7 +114,6 @@ export class AddMissionComponent implements OnInit {
           value: item.id,
           text: item.skillName
         }));
-  
       } else {
         this.toast.error({ detail: "ERROR", summary: data.message, duration: 3000 });
       }
@@ -129,67 +130,86 @@ export class AddMissionComponent implements OnInit {
     }, err => this.toast.error({ detail: "ERROR", summary: err.message, duration: 3000 }))
   }
 
-  OnSelectedImage(event: any) {
-    const files = event.target.files;
-    if (this.imageListArray.length > 5) {
-      return this.toast.error({ detail: "ERROR", summary: "Maximum 6 images can be added.", duration: 3000 });
-    }
-    if (files) {
-      this.formData = new FormData();
-      for (const file of files) {
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          this.imageListArray.push(e.target.result);
-        }
-        reader.readAsDataURL(file)
+  onImageSelected(event: any) {
+    this.selectedImage = event.target.files[0];
+  }
+
+  async onUpload() {
+    if (this.selectedImage) {
+      try {
+        const response = await this.imgbbService.uploadImage(this.selectedImage).toPromise();
+        this.uploadedImageUrl = response.data.url;
+        // Set the uploaded image URL as a string value in the form
+        this.addMissionForm.get('missionImages')?.setValue(this.uploadedImageUrl);
+      } catch (error) {
+        this.toast.error({ detail: "ERROR", summary: 'Error uploading image', duration: 3000 });
       }
-      for (let i = 0; i < files.length; i++) {
-        this.formData.append('file', files[i]);
-        this.formData.append('moduleName', 'Mission');
-      }
-      console.log(this.formData);
     }
   }
+  
+  createMissionDto(): MissionDto {
+    const formValue = this.addMissionForm.value;
+    const selectedCountry = this.countryList.find(country => country.value === formValue.countryId);
+    const selectedCity = this.cityList.find(city => city.value === formValue.cityId);
+  
+    const missionDto: MissionDto = {
+      id: 0,
+      countryId: formValue.countryId,
+      cityId: formValue.cityId,
+      missionDescription: formValue.missionDescription,
+      totalSheets: formValue.totalSheets,
+      startDate: new Date(formValue.startDate),
+      endDate: new Date(formValue.endDate),
+      missionImages: formValue.missionImages, 
+      missionSkillId: Array.isArray(formValue.missionSkillId) ? formValue.missionSkillId.join(',') : formValue.missionSkillId,
+      missionThemeId: formValue.missionThemeId,
+      missionTitle: formValue.missionTitle,
+      missionOrganisationName: null, 
+      missionOrganisationDetail: null, 
+      countryName: selectedCountry ? selectedCountry.text : null,
+      cityName: selectedCity ? selectedCity.text : null,
+    };
+    return missionDto;
+  }
+  
 
   async OnSubmit() {
     this.formValid = true;
-    let imageUrl: any[] = [];
-    let value = this.addMissionForm.value;
-    value.missionSkillId = Array.isArray(value.missionSkillId) ? value.missionSkillId.join(',') : value.missionSkillId;
-    if (this.addMissionForm.valid) {
-      if (this.imageListArray.length > 0) {
-        await this.service.UploadImage(this.formData).pipe().toPromise().then((res: any) => {
-          if (res.success) {
-            imageUrl = res.data;
-          }
-        }, err => { this.toast.error({ detail: "ERROR", summary: err.message, duration: 3000 }) });
-      }
-      let imgUrlList = imageUrl.map(e => e.replace(/\s/g, "")).join(",");
-      value.missionImages = imgUrlList;
-      this.service.AddMission(value).subscribe((data: any) => {
-
-        if (data.result == 1) {
-          this.toast.success({ detail: "SUCCESS", summary: data.data, duration: 3000 });
+    if (this.formValid) {
+      const missionDto = this.createMissionDto();
+      this.service.AddMission(missionDto).subscribe(
+        (data: any) => {
+          this.toast.success({ detail: "SUCCESS", summary: "Mission Posted Successfully", duration: 3000 });
           setTimeout(() => {
             this.router.navigate(['admin/mission']);
           }, 1000);
+        },
+        (error) => {
+          this.toast.error({ detail: "ERROR", summary: "Something went wrong", duration: 3000 });
+          console.error('Error adding mission:', error);
         }
-        else {
-          this.toast.error({ detail: "ERROR", summary: data.message, duration: 3000 });
-        }
-      });
+      );
       this.formValid = false;
     }
   }
-
   OnCancel() {
     this.router.navigateByUrl('admin/mission');
   }
-
-  OnRemoveImages(item: any) {
-    const index: number = this.imageListArray.indexOf(item);
-    if (item !== -1) {
-      this.imageListArray.splice(index, 1);
-    }
-  }
+}
+export interface MissionDto {
+  id: number;
+  countryId: number;
+  cityId: number;
+  missionDescription: string;
+  totalSheets?: number;
+  startDate: Date;
+  endDate: Date;
+  missionImages?: string;
+  missionSkillId?: string;
+  missionThemeId?: any;
+  missionTitle: string;
+  missionOrganisationName: string | null;
+  missionOrganisationDetail: string | null;
+  countryName: string | null;
+  cityName: string | null;
 }
