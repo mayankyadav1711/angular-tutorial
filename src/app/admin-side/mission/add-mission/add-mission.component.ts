@@ -79,8 +79,11 @@ export class AddMissionComponent implements OnInit {
 
   CountryList() {
     this.service.CountryList().subscribe((data: any) => {
-      if (data.result == 1) {
-        this.countryList = data.data;
+      if (data) {
+        this.countryList = data.map((item: any) => ({
+          value: item.id,
+          text: item.countryName
+        }));
       } else {
         this.toast.error({ detail: "ERROR", summary: data.message, duration: 3000 });
       }
@@ -90,8 +93,12 @@ export class AddMissionComponent implements OnInit {
   CityList(countryId: any) {
     countryId = countryId.target.value;
     this.service.CityList(countryId).subscribe((data: any) => {
-      if (data.result == 1) {
-        this.cityList = data.data;
+      if (data) {
+        this.cityList = data.map((item: any) => ({
+          value: item.id,
+          text: item.cityName
+        }));
+      
       } else {
         this.toast.error({ detail: "ERROR", summary: data.message, duration: 3000 });
       }
@@ -100,8 +107,12 @@ export class AddMissionComponent implements OnInit {
 
   GetMissionSkillList() {
     this.service.GetMissionSkillList().subscribe((data: any) => {
-      if (data.result == 1) {
-        this.missionSkillList = data.data;
+      if (data) {
+        this.missionSkillList = data.map((item: any) => ({
+          value: item.id,
+          text: item.skillName
+        }));
+  
       } else {
         this.toast.error({ detail: "ERROR", summary: data.message, duration: 3000 });
       }
@@ -110,8 +121,8 @@ export class AddMissionComponent implements OnInit {
 
   GetMissionThemeList() {
     this.service.GetMissionThemeList().subscribe((data: any) => {
-      if (data.result == 1) {
-        this.missionThemeList = data.data;
+      if (data) {
+        this.missionThemeList = data;
       } else {
         this.toast.error({ detail: "ERROR", summary: data.message, duration: 3000 });
       }

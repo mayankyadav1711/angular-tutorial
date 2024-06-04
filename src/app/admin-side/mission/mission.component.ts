@@ -27,9 +27,9 @@ export class MissionComponent implements OnInit {
   }
   FetchData(){
     this.service.MissionList().subscribe((data:any) => {
-        if(data.result == 1)
+        if(data)
         {
-          this.missionList = data.data;
+          this.missionList = data;
 
           this.missionList = this.missionList.map(x=> {
             return {

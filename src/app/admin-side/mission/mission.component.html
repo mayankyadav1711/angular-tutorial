@@ -28,7 +28,8 @@
                </tr>
              </thead>
              <tbody>
-              <ng-container *ngIf="(missionList | filter:searchText | paginate :{ itemsPerPage: itemsPerPages, currentPage: page })as result">
+              <ng-container *ngIf="missionList && missionList.length > 0; else noDataFound">
+                <ng-container *ngIf="(missionList | filter:searchText | paginate :{ itemsPerPage: itemsPerPages, currentPage: page }) as result">
                 <tr *ngFor="let item of result">
                  <td>{{item.missionTitle}}</td>
                  <td style="text-align: right;">{{item.missionType}}</td>
@@ -42,10 +43,17 @@
                 <td colspan="6" style="text-align:center;width:100%;font-size:20px;color: red;"><b>No Data Found </b> </td>
               </tr>
               </ng-container>
+            </ng-container>
+
+            <ng-template #noDataFound>
+              <tr>
+                <td colspan="5" style="text-align:center;width:100%;font-size:20px;color: red;"><b>No Data Found</b></td>
+              </tr>
+            </ng-template>
              </tbody>
            </table>
            </div>
-           <div class="mt-8 py-5" *ngIf="missionList.length != 0" style="display:flex;justify-content: end;">
+           <div class="mt-8 py-5" *ngIf="missionList && missionList.length !== 0" style="display:flex;justify-content: end;">
             <pagination-controls previousLabel="" nextLabel="" (pageChange)="page = $event"></pagination-controls>
           </div>
          </div>

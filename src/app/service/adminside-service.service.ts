@@ -63,10 +63,10 @@ export class AdminsideServiceService {
 
   //Mission
   GetMissionThemeList():Observable<MissionTheme[]>{
-    return this.http.get<MissionTheme[]>(`${this.apiUrl}/Mission/GetMissionThemeList`);
+    return this.http.get<MissionTheme[]>(`${this.apiUrl}/MissionTheme`);
   }
   GetMissionSkillList():Observable<MissionSkill[]>{
-    return this.http.get<MissionSkill[]>(`${this.apiUrl}/Mission/GetMissionSkillList`);
+    return this.http.get<MissionSkill[]>(`${this.apiUrl}/MissionSkill`);
   }
   UploadImage(data: any) {
     return this.http.post(`${this.apiUrl}/Common/UploadImage`,data);
@@ -75,27 +75,27 @@ export class AdminsideServiceService {
     return this.http.post(`${this.apiUrl}/Mission/UploadImage`,data);
   }
   MissionList(): Observable<Mission[]> {
-    return this.http.get<Mission[]>(`${this.apiUrl}/Mission/MissionList`);
+    return this.http.get<Mission[]>(`${this.apiUrl}/Missions`);
   }
   MissionDetailById(id: number): Observable<Mission[]> {
     return this.http.get<Mission[]>(
-      `${this.apiUrl}/Mission/MissionDetailById/${id}`
+      `${this.apiUrl}/Mission/${id}`
     );
   }
   CountryList(): Observable<Country[]> {
     return this.http.get<Country[]>(`${this.apiUrl}/Countries`);
   }
   CityList(countryId: any): Observable<City[]> {
-    return this.http.get<City[]>(`${this.apiUrl}/Cities/GetCitiesByCountryId${countryId}`);
+    return this.http.get<City[]>(`${this.apiUrl}/Cities/GetCitiesByCountryId/${countryId}`);
   }
   AddMission(data: Mission) {
-    return this.http.post(`${this.apiUrl}/Mission`, data);
+    return this.http.post(`${this.apiUrl}/Missions`, data);
   }
   UpdateMission(data: Mission) {
-    return this.http.post(`${this.apiUrl}/Mission/${data.id}`, data);
+    return this.http.post(`${this.apiUrl}/Missions/${data.id}`, data);
   }
   DeleteMission(data: any) {
-    return this.http.delete(`${this.apiUrl}/Mission/${data}`);
+    return this.http.delete(`${this.apiUrl}/Missions/${data}`);
   }
 
   //Mission Application
