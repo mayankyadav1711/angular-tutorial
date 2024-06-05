@@ -42,6 +42,17 @@
                 </div>
               </div>
 
+              <div class="col-sm-6">
+                <label class="col-form-label">Mission Themes</label>
+                <select class="form-select" formControlName="missionThemeId">
+                  <option value="">Select Mission Skill</option>
+                  <option *ngFor="let item of missionThemeList" [value]="item.value">{{ item.text }}</option>
+                </select>
+                <span class="text-danger" *ngIf="missionSkillId.invalid && (missionSkillId.touched || formValid)">
+                  Please Select Mission Skill
+                </span>
+              </div>
+
               <div class="row">
                 <div class="col-sm-6">
                   <label class="col-form-label">Mission Description</label>

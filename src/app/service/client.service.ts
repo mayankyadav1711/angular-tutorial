@@ -12,12 +12,12 @@ import { VolunteeringGoals, VolunteeringHours } from '../model/volunteering.mode
 export class ClientService {
 
   constructor(private http:HttpClient) { }
-  apiUrl:string='http://localhost:56577/api';
+  apiUrl: string = 'https://localhost:7178/api';
   imageUrl:string='http://localhost:56577';
 
   //HomePage
-  MissionList(userId:any):Observable<Mission[]>{
-    return this.http.get<Mission[]>(`${this.apiUrl}/ClientMission/ClientSideMissionList/${userId}`);
+  MissionList():Observable<Mission[]>{
+    return this.http.get<Mission[]>(`${this.apiUrl}/Missions`);
   }
   MissionClientList(data:any){
     return this.http.post(`${this.apiUrl}/ClientMission/MissionClientList`,data);

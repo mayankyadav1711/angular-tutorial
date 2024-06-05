@@ -66,12 +66,12 @@ export class HomeComponent implements OnInit {
     this.view = 'list';
   }
   AllMissionList(){
-    this.service.MissionList(this.loginUserId).subscribe((data:any) => {
-      if(data.result == 1)
+    this.service.MissionList().subscribe((data:any) => {
+      if(data)
       {
-        this.missionList = data.data;
+        this.missionList = data;
         this.missionList = this.missionList.map(x=> {
-          var missionimg=x.missionImages ? this.service.imageUrl + '/' + x.missionImages : 'assets/NoImg.png';
+          var missionimg=x.missionImages ?  x.missionImages : 'assets/NoImg.png';
           this.rating3 =  x.rating;
           return {
             id:x.id,

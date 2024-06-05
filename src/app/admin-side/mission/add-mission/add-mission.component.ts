@@ -123,7 +123,12 @@ export class AddMissionComponent implements OnInit {
   GetMissionThemeList() {
     this.service.GetMissionThemeList().subscribe((data: any) => {
       if (data) {
-        this.missionThemeList = data;
+
+        this.missionThemeList = data.map((item: any) => ({
+          value: item.id,
+          text: item.themeName
+        }));
+
       } else {
         this.toast.error({ detail: "ERROR", summary: data.message, duration: 3000 });
       }
@@ -162,7 +167,7 @@ export class AddMissionComponent implements OnInit {
       endDate: new Date(formValue.endDate),
       missionImages: formValue.missionImages, 
       missionSkillId: Array.isArray(formValue.missionSkillId) ? formValue.missionSkillId.join(',') : formValue.missionSkillId,
-      missionThemeId: formValue.missionThemeId,
+      missionThemeId: Array.isArray(formValue.missionSkillId) ? formValue.missionSkillId.join(',') : formValue.missionSkillId,
       missionTitle: formValue.missionTitle,
       missionOrganisationName: null, 
       missionOrganisationDetail: null, 
@@ -206,7 +211,7 @@ export interface MissionDto {
   endDate: Date;
   missionImages?: string;
   missionSkillId?: string;
-  missionThemeId?: any;
+  missionThemeId?: string;
   missionTitle: string;
   missionOrganisationName: string | null;
   missionOrganisationDetail: string | null;
