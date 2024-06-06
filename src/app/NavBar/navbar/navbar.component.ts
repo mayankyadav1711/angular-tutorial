@@ -16,6 +16,7 @@ export class NavbarComponent implements OnInit {
   loginUserId:any;
   userImage:any;
   userImages:any;
+  activeLink: string = '';
   ngOnInit(): void {
     this.loginService.getCurrentUser().subscribe((data:any)=>{
       let userName = this.loginService.getUserDetail();
@@ -39,6 +40,17 @@ export class NavbarComponent implements OnInit {
     if(tokenDetail.userType != 'user')
     {
       this.isLogin = false;
+    }
+  }
+  
+
+  setActiveLink(url: string) {
+    if (url.includes('home')) {
+      this.activeLink = 'home';
+    } else if (url.includes('policy')) {
+      this.activeLink = 'policy';
+    } else {
+      this.activeLink = 'support';
     }
   }
   RedirectLogin(){

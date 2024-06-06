@@ -97,7 +97,7 @@ export class HomeComponent implements OnInit {
             missionDeadLineStatus:x.missionDeadLineStatus,
           }
         });
-        this.totalMission = data.data.length;
+        this.totalMission = data.length;
       }
       else{
         this.toast.error({detail:"ERROR",summary:data.message,duration:3000});

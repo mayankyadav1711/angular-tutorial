@@ -1,62 +1,69 @@
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   list-style: none;
   text-decoration: none;
-  overflow:hidden;
+  overflow: hidden;
 }
-.container-fluid{
+
+.container-fluid {
   display: flex;
 }
 
-.container-fluid .content{
+.container-fluid .content {
   width: 100%;
   margin-left: 300px;
 }
 
-.container-fluid .content .info{
+.container-fluid .content .info {
   margin: 20px;
   color: #717171;
   line-height: 25px;
   text-align: justify;
 }
-.container-fluid .content .info div{
+
+.container-fluid .content .info div {
   margin-bottom: 15px;
 }
-.container-fluid .content .info .userLabel{
+
+.container-fluid .content .info .userLabel {
   font-size: 28px;
   font-weight: 400;
   margin-top: 30px;
   padding-bottom: 12px;
-  border-bottom: 2px solid #e0e4e5;
+  border-bottom: 2px solid #3498db; /* Blue border */
 }
-.btnAdd{
+
+.btnAdd {
   width: 112px;
   height: 50px;
   margin: 10px 0px 0px 0px;
   padding: 10px 25px 17px 22px;
   border-radius: 24px;
-  border: solid 2px #f88634;
+  border: solid 2px #3498db; /* Blue border */
   background-color: #fff;
 }
-.btnAddIcon{
+
+.btnAddIcon {
   width: 14px;
   height: 14px;
   margin: 0 9px 0 0;
   padding: 0 1px 1px 0;
-  color: #f88634;
+  color: #3498db; /* Blue color */
 }
-.add{
+
+.add {
   width: 28px;
   height: 12px;
   margin: 2px 0 0 0px;
   font-family: Myriad Pro;
   font-size: 17px;
   text-align: left;
-  color: #f88634;
+  color: #3498db; /* Blue color */
 }
-.searchBox{
+
+.searchBox {
   width: 400px;
   height: 48px;
   margin: 10px 722px 0px 0px;
@@ -66,30 +73,32 @@
   border: solid 1px #d9d9d9;
   background-color: #fff;
 }
+
 .icon {
   padding-left: 35px;
   padding-right: 3px;
   background: url("src/assets/Img/search.png") no-repeat;
   background-size: 17px;
   background-position: 3% 55%;
-
 }
 
-.tableData{
+.tableData {
   max-height: 800px;
   margin-top: 0%;
   border: solid 1px #d9d9d9;
   background-color: #fff;
 }
-.tableData table thead tr th{
+
+.tableData table thead tr th {
   height: 80px;
   margin: 3px 0px 500px 0px;
   padding: 36px 20px 22px 18px;
   background-color: #f8f9fc;
 }
-.btnedit{
+
+.btnedit {
   background-color: white;
-  color:#14c506;
+  color: #3498db; /* Blue color */
   cursor: pointer;
   border: none;
   font-size: 23px;
@@ -98,31 +107,17 @@
   height: 26px;
 }
 
-
- .btndelete{
+.btndelete {
   background-color: white;
-  color: #ff0000;
+  color: #ff0000; /* Red color */
   cursor: pointer;
   border: none;
   font-size: 23px;
   width: 36px;
   height: 26px;
- }
-td{
+}
+
+td {
   padding: 16px;
   border-bottom: 1px solid #e0e4e5;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
