@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as $ from 'jquery';
 import { AdminloginService } from 'src/app/service/adminlogin.service';
+import { ClientService } from 'src/app/service/client.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -9,23 +10,31 @@ import { AdminloginService } from 'src/app/service/adminlogin.service';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private service:AdminloginService,private router:Router) { }
+  constructor(private loginService:AdminloginService,private router:Router, public service: ClientService,) { }
   isLogin:boolean = false;
   userDetail:any;
   loginUserId:any;
   userImage:any;
   userImages:any;
   ngOnInit(): void {
-    this.service.getCurrentUser().subscribe((data:any)=>{
-      let userName = this.service.getUserDetail();
+    this.loginService.getCurrentUser().subscribe((data:any)=>{
+      let userName = this.loginService.getUserDetail();
       if(userName != null || data != null){
+        console.log(userName)
         this.isLogin = true;
         data == null ? (this.userDetail = userName.fullName) : (this.userDetail = data.fullName);
         data == null ? (this.loginUserId = userName.userId) : (this.loginUserId = data.userId);
-        data == null ? (this.userImage = this.service.imageUrl + '/' + userName.userImage) : (this.userImage = this.service.imageUrl + '/' + data.userImage);
+        const userId = data == null ? userName.userId : data.userId;
+        this.service.GetUserProfileDetailById(userId).subscribe((userDetails: any) => {
+          if (userDetails && userDetails.userDetails && userDetails.userDetails.userImage) {
+            this.userImage = userDetails.userDetails.userImage;
+          } else {
+            this.userImage = 'assets/NoUser.png'; // Fallback image
+          }
+        });
       }
     });
-    var tokenDetail = this.service.decodedToken();
+    var tokenDetail = this.loginService.decodedToken();
     console.log(tokenDetail)
     if(tokenDetail.userType != 'user')
     {
@@ -39,7 +48,7 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['register']);
   }
   LoggedOut(){
-    this.service.LoggedOut();
+    this.loginService.LoggedOut();
     this.isLogin = false;
     this.router.navigate(['']);
 }
