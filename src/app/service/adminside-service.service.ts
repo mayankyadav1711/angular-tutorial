@@ -107,16 +107,16 @@ export class AdminsideServiceService {
   //Mission Application
   MissionApplicationList(): Observable<MissionApplication[]> {
     return this.http.get<MissionApplication[]>(
-      `${this.apiUrl}/Mission/MissionApplicationList`
+      `${this.apiUrl}/MissionApplication`
     );
   }
 
-  MissionApplicationDelete(data: MissionApplication){
-    return this.http.post(`${this.apiUrl}/Mission/MissionApplicationDelete`, data);
+  MissionApplicationDelete(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/MissionApplication/${id}`);
   }
 
-  MissionApplicationApprove(data: MissionApplication){
-    return this.http.post(`${this.apiUrl}/Mission/MissionApplicationApprove`, data);
+  MissionApplicationApprove(id: number): Observable<any> {
+    return this.http.put(`${this.apiUrl}/MissionApplication/Approve/${id}`, {});
   }
 
   //Mission Theme

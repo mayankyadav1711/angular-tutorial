@@ -16,8 +16,8 @@ export class ClientService {
   imageUrl:string='http://localhost:56577';
 
   //HomePage
-  MissionList():Observable<Mission[]>{
-    return this.http.get<Mission[]>(`${this.apiUrl}/Missions`);
+  MissionList(userId:any):Observable<Mission[]>{
+    return this.http.get<Mission[]>(`${this.apiUrl}/ClientMission/${userId}`);
   }
   MissionClientList(data:any){
     return this.http.post(`${this.apiUrl}/ClientMission/MissionClientList`,data);
@@ -25,8 +25,8 @@ export class ClientService {
   MissionDetailByMissionId(data:any){
     return this.http.post(`${this.apiUrl}/ClientMission/MissionDetailByMissionId/`,data);
   }
-  ApplyMission(data:any){debugger;
-     return this.http.post(`${this.apiUrl}/ClientMission/ApplyMission`,data);
+  ApplyMission(data:any) :  Observable<any>{
+     return this.http.post(`${this.apiUrl}/MissionApplication/Apply`,data);
   }
 
   //ShareYourStory

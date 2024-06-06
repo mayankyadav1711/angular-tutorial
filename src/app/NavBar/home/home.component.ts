@@ -66,7 +66,7 @@ export class HomeComponent implements OnInit {
     this.view = 'list';
   }
   AllMissionList(){
-    this.service.MissionList().subscribe((data:any) => {
+    this.service.MissionList(this.loginUserId).subscribe((data:any) => {
       if(data)
       {
         this.missionList = data;
@@ -208,29 +208,31 @@ export class HomeComponent implements OnInit {
       this.router.navigate([`volunteeringMission/${missionId}`]);
     }
   }
-  ApplyMission()
-  {
-    let value={
-      missionId:this.missionData.id,
-      userId:this.loginUserId,
-      appliedDate:moment().format("yyyy-MM-DDTHH:mm:ssZ"),
-     status:false,
-      sheet:1
+  ApplyMission() {
+    let value = {
+      missionId: this.missionData.id,
+      userId: this.loginUserId,
+      appliedDate: moment().format("yyyy-MM-DDTHH:mm:ssZ"),
+      status: false,
+      sheet: 1
     };
-      this.service.ApplyMission(value).subscribe((data:any)=>{
-          if(data.result == 1)
-          {
-            this.toast.success({detail:"SUCCESS",summary:data.data});
-            setTimeout(() => {
-              this.missionData.totalSheets = this.missionData.totalSheets - 1;
-            }, 1000);
-            window.location.reload();
-          }
-          else
-          {
-            this.toast.error({detail:"ERROR",summary:data.message,duration:3000});
-          }
-      },err=>this.toast.error({detail:"ERROR",summary:err.message,duration:3000}))
+  
+    this.service.ApplyMission(value).subscribe(
+      (data: any) => {
+        if (data.success) { // Check if the response indicates success
+          this.toast.success({ detail: "SUCCESS", summary: data.message, duration: 3000 });
+          setTimeout(() => {
+            this.missionData.totalSheets = this.missionData.totalSheets - 1;
+            this.AllMissionList();
+          }, 1000);
+        } else {
+          this.toast.error({ detail: "ERROR", summary: data.message, duration: 3000 });
+        }
+      },
+      (err) => {
+        this.toast.error({ detail: "ERROR", summary: err.message || "Server error", duration: 3000 });
+      }
+    );
   }
 
   getUserList(){
