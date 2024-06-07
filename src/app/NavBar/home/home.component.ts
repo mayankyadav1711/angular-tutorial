@@ -9,7 +9,9 @@ import dateFormat from 'dateformat';
 import { Mission } from 'src/app/model/cms.model';
 import * as moment from 'moment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 declare var window:any;
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -38,6 +40,9 @@ export class HomeComponent implements OnInit {
   public form: FormGroup;
   rating3:any;
   missionid:any;
+
+  @ViewChild('joinCommunityBtn') joinCommunityBtnRef!: ElementRef;
+
   constructor(private service:ClientService,private toast:NgToastService,private router:Router,public commonservice:CommonService,private adminservice:AdminloginService,
     public datepipe: DatePipe,private fb: FormBuilder) {
 
@@ -262,5 +267,12 @@ export class HomeComponent implements OnInit {
           }
         })
       }
+  }
+
+  scrollToExploreSection(): void {
+    const exploreMissionElement = document.getElementById('exploremission');
+    if (exploreMissionElement) {
+      exploreMissionElement.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 }

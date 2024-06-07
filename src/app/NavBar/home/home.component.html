@@ -1,65 +1,63 @@
 <div>
   <app-navbar></app-navbar>
 </div>
-<div class="container-fluid">
+<header>
+  <section class="hero">
+    <div class="left">
+      <h1>
+        Welcome to <br />
+        <span>Supportify</span>
+      </h1>
+      <h2>
+        Your Virtual <br />
+        Community Hub
+      </h2>
+      <p>
+        Connect, share, and grow with like-minded individuals. Join our supportive
+        community and explore a world of knowledge and empowerment.
+      </p>
+      <a  class="btn btn-primary" style="color:white" id="joinCommunityBtn" (click)="scrollToExploreSection()">Join the Community</a>
+    </div>
+    <div class="right">
+      <img src="https://i.ibb.co/V9R2NTX/2151493274.jpg" alt="">
+    </div>
+  </section>
+</header>
+<div class="container-fluid" id="exploremission">
   <div class="row justify-content-center my-5">
     <div class="col-md-8">
-      <div
-        class="d-flex justify-content-between align-items-center mb-4"
-        style="margin-top: 2rem"
-      >
-        <!-- <h2 class="fw-bold" style="color:black;">Explore <span class="fw-bold">{{totalMission}} Missions</span></h2> -->
-        <h2 class="fw-bold" style="color: black">
-          Explore <span class="fw-bold">Missions</span>
-        </h2>
-
+      <div class="d-flex justify-content-center mb-4">
+        <h2 style="color: black">Explore <span>Missions</span></h2>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="flex-grow-1 me-3">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search missions..." [(ngModel)]="searchParam" />
+            <button class="btn btn-primary" type="button">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
         <div class="d-flex align-items-center">
           <div class="me-3">
             <select class="form-select" (change)="SortingList($event)">
               <option value="">Sort by</option>
               <option value="Newest">Newest</option>
               <option value="Oldest">Oldest</option>
-              <option value="Lowest available seats">
-                Lowest available seats
-              </option>
-              <option value="Highest available seats">
-                Highest available seats
-              </option>
+              <option value="Lowest available seats">Lowest available seats</option>
+              <option value="Highest available seats">Highest available seats</option>
               <option value="My favourites">My favourites</option>
-              <option value="Registration deadline">
-                Registration deadline
-              </option>
+              <option value="Registration deadline">Registration deadline</option>
             </select>
           </div>
           <div class="btn-group" role="group">
-            <button
-              type="button"
-              class="btn btn-outline-secondary"
-              (click)="OnChangeGrid()"
-            >
+            <button type="button" class="btn btn-outline-secondary" (click)="OnChangeGrid()">
               <i class="fa fa-th"></i>
             </button>
-            <button
-              type="button"
-              class="btn btn-outline-secondary"
-              (click)="OnChangeList()"
-            >
+            <button type="button" class="btn btn-outline-secondary" (click)="OnChangeList()">
               <i class="fa fa-list"></i>
             </button>
           </div>
-        </div>
-      </div>
-      <div class="mb-4">
-        <div class="input-group">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Search missions..."
-            [(ngModel)]="searchParam"
-          />
-          <button class="btn btn-primary" type="button">
-            <i class="fa fa-search"></i>
-          </button>
         </div>
       </div>
       <div *ngIf="view == 'grid'" class="row row-cols-1 row-cols-md-3 g-4">
@@ -110,13 +108,13 @@
                 >
               </div>
               <div class="card-body">
-                <h5 class="card-title">{{ item.missionThemeName }}</h5>
+                <h5 class="card-title">{{ item.missionTitle }}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">
-                  {{ item.missionTitle }}
+                  {{ item.missionDescription }}
                 </h6>
                 <p class="card-text">{{ item.missionOrganisationDetail }}</p>
                 <p class="card-text">
-                  <i class="fa fa-map-marker-alt me-2"></i
+                  <i class="fa fa-map-marker me-2"></i
                   >{{ item.countryName }}
                 </p>
                 <div class="border-top pt-3">
@@ -236,23 +234,23 @@
                 </div>
                 <div class="col-md-9">
                   <div class="card-body">
-                    <h5 class="card-title">{{ item.missionThemeName }}</h5>
+                    <h5 class="card-title">{{ item.missionTitle }}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">
-                      {{ item.missionTitle }}
+                      {{ item.missionDescription }}
                     </h6>
-                    <p class="card-text">{{ item.missionDescription }}</p>
+               
                     <div class="d-flex mb-3">
                       <div class="me-3">
-                        <i class="fa fa-map-marker-alt me-2"></i
+                        <i class="fa fa-map-marker me-2"></i
                         >{{ item.cityName }}
                       </div>
                       <div class="me-3">
                         <i class="fa fa-globe me-2"></i
-                        >{{ item.missionThemeName }}
+                        >{{ item.countryName }}
                       </div>
                       <div class="me-3">
                         <i class="fa fa-building me-2"></i
-                        >{{ item.missionOrganisationName }}
+                        >Organization
                       </div>
                     </div>
                     <div class="d-flex align-items-center mb-3">
@@ -268,14 +266,11 @@
                         Deadline
                       </div>
                       <div class="me-4">
-                        <i class="fa fa-calendar-alt me-2"></i>From
+                        <i class="fa fa-calendar-wrench me-2"></i>From
                         {{ item.startDate | date : "dd/MM/yyyy" }} until
                         {{ item.endDate | date : "dd/MM/yyyy" }}
                       </div>
-                      <div>
-                        <i class="fa fa-tools me-2"></i>Skills:
-                        {{ item.missionSkillName }}
-                      </div>
+                     
                     </div>
                     <div class="d-grid">
                       <button
