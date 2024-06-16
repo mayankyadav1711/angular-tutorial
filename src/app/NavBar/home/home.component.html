@@ -119,8 +119,8 @@
                 </p>
                 <div class="border-top pt-3">
                   <p class="mb-1">
-                    <i class="fa fa-calendar-alt me-2"></i>From
-                    {{ item.startDate | date : "dd/MM/yyyy" }} until
+                    <i class="fa fa-calendar-alt me-2"></i><span class="fw-bold"> From </span>
+                    {{ item.startDate | date : "dd/MM/yyyy" }} <span class="fw-bold"> until </span>
                     {{ item.endDate | date : "dd/MM/yyyy" }}
                   </p>
                 </div>
@@ -130,7 +130,7 @@
               >
                 <div>
                   <i class="fa fa-user-circle me-2"></i
-                  >{{ item.totalSheets }} Seats left
+                  ><span class="fw-bold"> {{ item.totalSheets }} </span> Seats left
                 </div>
                 <div>
                   <i class="fa fa-clock me-2"></i
@@ -266,8 +266,8 @@
                         Deadline
                       </div>
                       <div class="me-4">
-                        <i class="fa fa-calendar-wrench me-2"></i>From
-                        {{ item.startDate | date : "dd/MM/yyyy" }} until
+                        <i class="fa fa-calendar-wrench me-2"></i><span class="fw-bold"> From </span>
+                        {{ item.startDate | date : "dd/MM/yyyy" }} <span class="fw-bold"> until </span>
                         {{ item.endDate | date : "dd/MM/yyyy" }}
                       </div>
                      
